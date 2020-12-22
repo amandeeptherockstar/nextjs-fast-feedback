@@ -3,7 +3,12 @@ import Logo from "@/styles/Logo";
 import Breadcrumb from "@/components/Breadcrumb";
 import ProfileAvatarMenu from "@/components/ProfileAvatarMenu";
 
-const AuthLayout = ({ pageTitle, breadCrumbPaths, children }) => {
+const AuthLayout = ({
+  pageTitle,
+  breadCrumbPaths,
+  primaryButton,
+  children,
+}) => {
   return (
     <div>
       <nav className='bg-black'>
@@ -193,12 +198,17 @@ const AuthLayout = ({ pageTitle, breadCrumbPaths, children }) => {
       <header className='bg-white shadow'>
         <div className='max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8'>
           {/* Breadcrumb */}
-          <div className='mb-2'>
-            <Breadcrumb pathList={breadCrumbPaths} />
+          <div className='flex justify-between items-center'>
+            <div className='flex-auto'>
+              <div className='mb-2'>
+                <Breadcrumb pathList={breadCrumbPaths} />
+              </div>
+              <h1 className='text-3xl font-bold leading-tight text-gray-900'>
+                {pageTitle}
+              </h1>
+            </div>
+            <div>{primaryButton}</div>
           </div>
-          <h1 className='text-3xl font-bold leading-tight text-gray-900'>
-            {pageTitle}
-          </h1>
         </div>
       </header>
       <main>

@@ -14,6 +14,7 @@ import {
   Button,
   useToast,
 } from "@chakra-ui/react";
+import { mutate } from "swr";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useUserAuthContext } from "@/lib/context/User";
@@ -40,7 +41,7 @@ const AddSiteModal = ({ isOpen, closeModal }) => {
 
   const addSite = (values, { resetForm }) => {
     setCreateSiteLoading(true);
-    createSite({
+    const newSite = {
       ...values,
       link:
         values.link.startsWith("http://") || values.link.startsWith("https://")
@@ -48,10 +49,19 @@ const AddSiteModal = ({ isOpen, closeModal }) => {
           : `http://${values.link}`,
       createdAt: new Date().toISOString(),
       authorId: user.uid,
-    })
+    };
+    createSite(newSite)
       .then((resp) => {
         if (resp) {
           resetForm();
+          // mutate the state directly without refetching,
+          mutate(
+            "/api/sites",
+            (data) => {
+              return { sites: [...data.sites, newSite] };
+            },
+            false
+          );
           closeModal();
           toast({
             title: "Website added",
@@ -97,8 +107,8 @@ const AddSiteModal = ({ isOpen, closeModal }) => {
     <Modal
       isOpen={isOpen}
       onClose={() => {
-        resetForm();
         closeModal();
+        resetForm();
       }}
       initialFocusRef={websiteNameRef}
       closeOnOverlayClick={false}
@@ -146,7 +156,8 @@ const AddSiteModal = ({ isOpen, closeModal }) => {
             </Button>
             <Button
               backgroundColor='black'
-              colorScheme='white'
+              color='white'
+              colorScheme='green'
               leftIcon={<PlusCircleFill />}
               // type='submit'
               onClick={handleSubmit}

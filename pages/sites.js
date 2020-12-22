@@ -1,5 +1,5 @@
 import React from "react";
-import { useDisclosure } from "@chakra-ui/react";
+import { useDisclosure, Button } from "@chakra-ui/react";
 import useSWR from "swr";
 import AuthLayout from "@/layouts/AuthLayout";
 import UpgradeToStarter from "@/components/EmptyStates/Sites/UpgradeToStarter";
@@ -20,6 +20,18 @@ const Sites = () => {
         { path: "/", name: "Home" },
         { path: "/sites", name: "Sites" },
       ]}
+      primaryButton={
+        data?.sites?.length > 0 && (
+          <Button
+            background='black'
+            color='white'
+            colorScheme='red'
+            onClick={onOpen}
+          >
+            Add Site
+          </Button>
+        )
+      }
     >
       {!data ? (
         <EmptyTable />

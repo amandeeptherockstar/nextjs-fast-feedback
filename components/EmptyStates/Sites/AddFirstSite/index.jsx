@@ -2,7 +2,7 @@ import React from "react";
 import { Button, Heading, Text } from "@chakra-ui/react";
 import { PlusCircleFill } from "@/utils/icons";
 
-const UpgradeToStarter = ({ openModal }) => {
+const AddFirstSite = ({ openModal }) => {
   return (
     <div className='flex items-center justify-center h-full'>
       <div className='text-center'>
@@ -25,4 +25,4 @@ const UpgradeToStarter = ({ openModal }) => {
   );
 };
 
-export default UpgradeToStarter;
+export default AddFirstSite;
